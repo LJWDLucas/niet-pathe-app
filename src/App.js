@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Web from './modules/web/components/Web';
 import Secure from './modules/secure/components/Secure';
 import Tickets from './modules/tickets/components/Tickets';
+import Performance from './components/Performance';
+import Performances from './components/Performances';
 
 class App extends Component {
   render() {
@@ -10,7 +12,16 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route key="secure" exact path="/secure" component={Secure} />
-          <Route key="web" exact path="/web" component={Web} />
+          <Route render={() => (
+            <React.Fragment>
+              <Switch>
+                <Route key="web" exact path="/web" component={Web} />
+                <Route key="performance" exact path="/web/performance/:performanceId" component={Performance} />
+                <Route key="performances" exact path="/web/performances/:movieId" component={Performances} />
+              </Switch>
+            </React.Fragment>
+          )}
+          />
           <Route key="tickets" exact path="/tickets" component={Tickets} />
         </Switch>
       </BrowserRouter>

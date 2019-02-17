@@ -1,4 +1,7 @@
 import { schema } from 'normalizr';
 
-const movie = new schema.Entity('movies');
+export const movie = new schema.Entity('movies');
+export const performance = new schema.Entity('performances');
+
 export const movies = [movie];
+export const performances = [performance];
