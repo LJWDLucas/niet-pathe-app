@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getPerformanceById } from '../modules/web/actions/webActions';
+import Hall from './performance/Hall';
 
 class Performance extends React.Component {
   constructor(props) {
@@ -24,7 +25,13 @@ class Performance extends React.Component {
 
     if (!initialized) return null;
 
-    return <div>Performance</div>;
+    return (
+      <div id="performance">
+        <Hall>
+
+        </Hall>
+      </div>
+    );
   }
 }
 

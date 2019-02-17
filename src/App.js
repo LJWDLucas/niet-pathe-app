@@ -5,6 +5,7 @@ import Secure from './modules/secure/components/Secure';
 import Tickets from './modules/tickets/components/Tickets';
 import Performance from './components/Performance';
 import Performances from './components/Performances';
+import './ignore.css';
 
 class App extends Component {
   render() {
