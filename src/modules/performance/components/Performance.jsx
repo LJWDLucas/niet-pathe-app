@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Hall from './Hall';
 import MobileChairSelector from './MobileChairSelector';
-import { initializePerformance } from '../../actions/actions';
-import { getPerformanceMovie, getPerformanceHall } from '../../redux/selectors';
+import { initializePerformance } from '../../../actions/actions';
+import { getPerformanceMovie, getPerformanceHall } from '../../../redux/selectors';
 import PerformanceContext from './PerformanceContext';
+import Purchase from './Purchase';
 
 class Performance extends React.Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class Performance extends React.Component {
               </div>
             )}
           </Media>
+          <Purchase />
         </PerformanceContext.Provider>
       </div>
     );

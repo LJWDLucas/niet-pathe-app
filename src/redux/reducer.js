@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import purchase from './reducers/purchase';
+import purchase from '../modules/performance/redux/purchase';
 import entities from './reducers/entities';
 import web from '../modules/web/redux/reducer';
 import tickets from '../modules/tickets/redux/reducer';

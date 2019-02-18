@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-import * as actionTypes from '../actionTypes';
+import * as actionTypes from './actionTypes';
 
 const initialState = {
   seats: [],
@@ -27,6 +27,13 @@ const purchase = (state = initialState, action) => {
       return update(state, {
         performanceId: {
           $set: action.payload
+        }
+      });
+    }
+    case actionTypes.EMPTY_SEATS: {
+      return update(state, {
+        seats: {
+          $set: []
         }
       });
     }

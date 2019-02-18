@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { getPerformanceChair, isSeatSelected } from '../../redux/selectors';
-import { addSeat, removeSeat } from '../../actions/purchaseActions';
+import { getPerformanceChair, isSeatSelected } from '../../../redux/selectors';
+import { addSeat, removeSeat } from '../actions/purchaseActions';
 
 class Chair extends React.Component {
   constructor(props) {
