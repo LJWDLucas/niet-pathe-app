@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Web from './modules/web/components/Web';
 import Secure from './modules/secure/components/Secure';
 import Tickets from './modules/tickets/components/Tickets';
-import Performance from './components/Performance';
+import Performance from './components/performance/Performance';
 import Performances from './components/Performances';
 import './ignore.css';
 
