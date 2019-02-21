@@ -23,21 +23,28 @@ export const emptySeats = () => ({
   type: actionTypes.EMPTY_SEATS
 });
 
-const updateSeatTaken = ({ performanceId, chair, row }, taken) => ({
+export const setTicketDiscount = payload => ({
+  type: actionTypes.SET_TICKET_DISCOUNT,
+  payload
+});
+
+const updateSeatTaken = ({ performanceId, chair, row, id }, taken) => ({
   type: actionTypes.SET_SEAT_TAKEN,
   payload: {
     performanceId,
     chair,
     row,
+    ticketId: id,
     taken
   }
 });
 
-const bookPerformanceSeat = ({ performanceId, chair, row }) => post({
+const bookPerformanceSeat = ({ performanceId, chair, row, id }) => post({
   url: `${BASE_URL}${PERFORMANCE_API}/${performanceId}/seat`,
   data: {
     chair,
-    row
+    row,
+    ticketId: id
   }
 });
 

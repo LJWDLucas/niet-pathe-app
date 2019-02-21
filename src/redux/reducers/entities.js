@@ -21,10 +21,10 @@ const entities = (state = initialState, action) => {
       });
     }
     case p.SET_SEAT_TAKEN: {
-      const { performanceId, chair, row, taken } = action.payload;
+      const { performanceId, chair, row, taken, ticketId } = action.payload;
       const index = state.performances[performanceId].chairs.findIndex(c => c.chair === chair && c.row === row);
       const newSeats = [...state.performances[performanceId].chairs];
-      newSeats.splice(index, 1, { chair, row, taken });
+      newSeats.splice(index, 1, { chair, row, taken, ticketId });
       return update(state, {
         performances: {
           [performanceId]: {

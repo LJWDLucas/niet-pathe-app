@@ -30,6 +30,16 @@ const purchase = (state = initialState, action) => {
         }
       });
     }
+    case actionTypes.SET_TICKET_DISCOUNT: {
+      const seats = [...state.seats];
+      const index = state.seats.findIndex(seat => seat.row === action.payload.row && seat.chair === action.payload.chair);
+      seats.splice(index, 1, action.payload);
+      return update(state, {
+        seats: {
+          $set: seats
+        }
+      });
+    }
     case actionTypes.EMPTY_SEATS: {
       return update(state, {
         seats: {

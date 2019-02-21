@@ -42,7 +42,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  performanceAddSeat: () => dispatch(addSeat({ chair: ownProps.chair, row: ownProps.row })),
+  performanceAddSeat: () => dispatch(addSeat({ chair: ownProps.chair, row: ownProps.row, discount: -1 })),
   performanceRemoveSeat: () => dispatch(removeSeat({ chair: ownProps.chair, row: ownProps.row }))
 });
 

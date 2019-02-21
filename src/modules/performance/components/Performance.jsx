@@ -46,7 +46,12 @@ class Performance extends React.Component {
               </div>
             )}
           </Media>
-          <Purchase />
+          <div id="info-and-purchase-display" className="container-fluid flex-wrap">
+            <div className="col-lg-7 col-md-6 col-sm-12 flex-wrap justify-content-center">
+              Poster
+            </div>
+            <Purchase />
+          </div>
         </PerformanceContext.Provider>
       </div>
     );
