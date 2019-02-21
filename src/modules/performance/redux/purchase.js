@@ -3,7 +3,9 @@ import * as actionTypes from './actionTypes';
 
 const initialState = {
   seats: [],
-  performanceId: ""
+  performanceId: "",
+  name: null,
+  email: null
 };
 
 const purchase = (state = initialState, action) => {
@@ -12,6 +14,13 @@ const purchase = (state = initialState, action) => {
       return update(state, {
         seats: {
           $push: [action.payload]
+        }
+      });
+    }
+    case actionTypes.SET_PURCHASE_PROPERTY: {
+      return update(state, {
+        [action.purchaseType]: {
+          $set: action.payload
         }
       });
     }
@@ -44,6 +53,13 @@ const purchase = (state = initialState, action) => {
       return update(state, {
         seats: {
           $set: []
+        }
+      });
+    }
+    case actionTypes.SET_CALCULATED_DISCOUNT: {
+      return update(state, {
+        seats: {
+          $set: action.payload
         }
       });
     }

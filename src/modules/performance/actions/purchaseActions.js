@@ -3,15 +3,12 @@ import * as actionTypes from '../redux/actionTypes';
 import { post } from '../../../utils/api';
 import { BASE_URL, TICKET_API, PERFORMANCE_API } from '../../../constants/fetch';
 import { NO_DISCOUNT } from '../../../constants/purchase';
+import { calculatePriceOfTickets } from '../../../redux/selectors';
 
-export const addSeat = payload => ({
-  type: actionTypes.PURCHASE_ADD_SEAT,
-  payload
-});
-
-export const removeSeat = payload => ({
-  type: actionTypes.PURCHASE_REMOVE_SEAT,
-  payload
+export const setPurchaseProperty = (purchaseType, payload) => ({
+  type: actionTypes.SET_PURCHASE_PROPERTY,
+  payload,
+  purchaseType
 });
 
 export const setPerformanceId = payload => ({
@@ -23,8 +20,8 @@ export const emptySeats = () => ({
   type: actionTypes.EMPTY_SEATS
 });
 
-export const setTicketDiscount = payload => ({
-  type: actionTypes.SET_TICKET_DISCOUNT,
+export const setCalculatedDiscount = payload => ({
+  type: actionTypes.SET_CALCULATED_DISCOUNT,
   payload
 });
 
@@ -54,6 +51,8 @@ const createTicket = payload => post({
 })
   .then(result => result.data);
 
+export const calculateDiscount = () => (dispatch, getState) => dispatch(setCalculatedDiscount(calculatePriceOfTickets(getState())));
+
 export const bookSeats = () => (dispatch, getState) => {
   const { purchase } = getState();
   toast.info('Een moment geduld aub. Uw bestelling wordt verwerkt.');
@@ -62,10 +61,10 @@ export const bookSeats = () => (dispatch, getState) => {
       performanceId: purchase.performanceId,
       chair: seat.chair,
       row: seat.row,
-      price: seat.price || 9,
-      discount: seat.discount || NO_DISCOUNT,
-      name: 'Danny Lucas',
-      email: 'danny.lucas@test.nl'
+      price: seat.price,
+      discount: seat.discount,
+      name: purchase.name || 'Anoniem',
+      email: purchase.email || 'Geen'
     };
     return createTicket(ticket);
   }))
@@ -76,4 +75,28 @@ export const bookSeats = () => (dispatch, getState) => {
     .then(() => toast.success('Uw bestelling is verwerkt. U ontvangt een e-mail met uw tickets.'))
     .then(() => dispatch(emptySeats()))
     .catch(() => toast.warn('Oh jee, er is iets fout gegaan.'));
+};
+
+export const addSeat = payload => dispatch => {
+  dispatch({
+    type: actionTypes.PURCHASE_ADD_SEAT,
+    payload
+  });
+  dispatch(calculateDiscount());
+};
+
+export const removeSeat = payload => dispatch => {
+  dispatch({
+    type: actionTypes.PURCHASE_REMOVE_SEAT,
+    payload
+  });
+  dispatch(calculateDiscount());
+};
+
+export const setTicketDiscount = payload => dispatch => {
+  dispatch({
+    type: actionTypes.SET_TICKET_DISCOUNT,
+    payload
+  });
+  dispatch(calculateDiscount());
 };

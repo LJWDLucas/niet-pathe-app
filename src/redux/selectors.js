@@ -51,13 +51,12 @@ export const calculatePriceOfTickets = createSelector(
   getMovies,
   (id, performances, seats, movies) => {
     const basePrice = parseInt(movies[performances[id].movieId].runtime.substr(0, 1), 10) >= 2 ? constants.COST.EXTENDED : constants.COST.REGULAR;
-    const threeDimensionalPrice = performances[id].threeDimensionalPrice ? constants.COST.THREE_DEE : 0;
+    const threeDimensionalPrice = performances[id].threeDimensional ? constants.COST.THREE_DEE : 0;
     return seats.map(seat => {
       const total = basePrice + threeDimensionalPrice;
       const [discount] = [constants.COST[constants.MAP[seat.discount]]];
       return {
-        chair: seat.chair,
-        row: seat.row,
+        ...seat,
         price: total + discount
       };
     });
