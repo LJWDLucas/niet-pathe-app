@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -18,10 +19,15 @@ class Secure extends React.Component {
 
   render() {
     const { initialized } = this.state;
+    const { location } = this.props;
 
     if (!initialized) return null;
 
-    return <div>Secure</div>;
+    return (
+      <React.Fragment>
+        <Link to={`${location.pathname}/reviews`}>Goedkeuren reviews</Link>
+      </React.Fragment>
+    );
   }
 }
 

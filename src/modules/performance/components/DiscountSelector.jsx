@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { VALUES, NAMES } from '../../../constants/purchase';
+import { VALUES, NAMES } from '../constants/purchase';
 import { selectDiscountsForPerformance } from '../../../redux/selectors';
 import { setTicketDiscount } from '../actions/purchaseActions';
 
@@ -18,9 +18,9 @@ DiscountRow.propTypes = {
 
 const DiscountSelector = ({ discounts, setDiscount }) => (
   <div className="d-i-b">
-    <li className="order-row" />
+    <div className="order-row" />
     <select defaultValue="-1" onChange={e => setDiscount(e.target.value)}>
-      {discounts.map(discount => <DiscountRow value={VALUES[discount]} name={NAMES[discount]} />)}
+      {discounts.map(discount => <DiscountRow key={VALUES[discount]} value={VALUES[discount]} name={NAMES[discount]} />)}
     </select>
   </div>
 );

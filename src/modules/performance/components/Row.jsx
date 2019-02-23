@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { chairsFifteen, chairsTen } from '../../../constants/halls';
+import { chairsFifteen, chairsTen } from '../constants/halls';
 import Chair from './Chair';
 import PerformanceContext from './PerformanceContext';
 

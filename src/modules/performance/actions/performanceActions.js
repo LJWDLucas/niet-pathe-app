@@ -1,7 +1,7 @@
 import { normalize } from 'normalizr';
-import * as f from '../../../constants/fetch';
+import * as f from '../constants/fetch';
 import { get } from '../../../utils/api';
-import { performances, performance, hall } from '../../../constants/schemas';
+import { performances, performance, hall } from '../constants/schemas';
 import * as actionTypes from '../../../redux/actionTypes';
 
 export const getPerformancesByMovieId = movieId => dispatch => get({

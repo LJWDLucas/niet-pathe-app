@@ -1,16 +1,12 @@
 import { combineReducers } from 'redux';
 import purchase from '../modules/performance/redux/purchase';
 import entities from './reducers/entities';
-import web from '../modules/web/redux/reducer';
-import tickets from '../modules/tickets/redux/reducer';
-import secure from '../modules/secure/redux/reducer';
+import reviews from '../modules/review/redux/review';
 
 const rootReducer = combineReducers({
   entities,
-  web,
-  tickets,
   purchase,
-  secure
+  reviews
 });
 
 export default rootReducer;

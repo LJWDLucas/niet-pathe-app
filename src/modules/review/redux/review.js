@@ -2,14 +2,14 @@ import update from 'immutability-helper';
 import * as actionTypes from './actionTypes';
 
 const initialState = {
-  general: {},
+  unapproved: {},
 };
 
-const secure = (state = initialState, action) => {
+const purchase = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SET_SECURE: {
+    case actionTypes.SET_REVIEWS: {
       return update(state, {
-        [action.secureType]: {
+        unapproved: {
           $set: action.payload
         }
       });
@@ -19,4 +19,4 @@ const secure = (state = initialState, action) => {
   }
 };
 
-export default secure;
+export default purchase;

@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { rowsEight, rowsSix, rowsFour } from '../../../constants/halls';
+import { rowsEight, rowsSix, rowsFour } from '../constants/halls';
 import Row from './Row';
 
 class RowsHolder extends React.Component {

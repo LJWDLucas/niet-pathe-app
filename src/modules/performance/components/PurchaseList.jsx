@@ -36,11 +36,11 @@ PurchaseList.propTypes = {
 };
 
 const WrappedPurchaseList = props => (
-  <PerformanceContext>
+  <PerformanceContext.Consumer>
     {({ performanceId }) => (
       <ConnectedPurchaseList {...props} performanceId={performanceId} />
     )}
-  </PerformanceContext>
+  </PerformanceContext.Consumer>
 );
 
 export default WrappedPurchaseList;

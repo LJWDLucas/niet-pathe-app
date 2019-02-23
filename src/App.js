@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import Web from './modules/web/components/Web';
-import Secure from './modules/secure/components/Secure';
-import Tickets from './modules/tickets/components/Tickets';
+import Web from './components/Web';
+import Secure from './components/Secure';
+import Tickets from './components/Tickets';
 import Performance from './modules/performance/components/Performance';
 import Performances from './components/Performances';
 import 'react-toastify/dist/ReactToastify.css';
 import './ignore.css';
+import BackButton from './components/BackButton';
+import ApproveReviews from './modules/review/components/ApproveReviews';
+import FullReview from './modules/review/components/FullReview';
 
 const PrivateRoute = ({ render: Component, ...rest }) => (
   <Route
@@ -19,7 +22,7 @@ const PrivateRoute = ({ render: Component, ...rest }) => (
 );
 
 PrivateRoute.propTypes = {
-  component: PropTypes.func
+  render: PropTypes.func
 };
 
 const App = ({ loggedInAs }) => (
@@ -28,13 +31,15 @@ const App = ({ loggedInAs }) => (
       <Switch>
         <PrivateRoute
           key="secure"
-          exact
           loggedInAs={loggedInAs}
           path="/secure"
           render={() => (
             <React.Fragment>
               <Switch>
-                <Route exact path="" component={Secure} />
+                <Route exact path="/secure/reviews/:id" component={FullReview} />
+                <Route exact path="/secure/reviews" component={ApproveReviews} />
+                <Route exact path="/secure" component={Secure} />
+                <Route path="/secure/*" render={() => <div>404 Niet gevonden.</div>} />
               </Switch>
             </React.Fragment>
           )}
@@ -50,6 +55,7 @@ const App = ({ loggedInAs }) => (
         )}
         />
         <Route key="tickets" exact path="/tickets" component={Tickets} />
+        <Route path="*" render={() => <div>404 Niet gevonden.</div>} />
       </Switch>
     </BrowserRouter>
     <ToastContainer />

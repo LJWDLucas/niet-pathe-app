@@ -1,8 +1,7 @@
 import { toast } from 'react-toastify';
 import * as actionTypes from '../redux/actionTypes';
 import { post } from '../../../utils/api';
-import { BASE_URL, TICKET_API, PERFORMANCE_API } from '../../../constants/fetch';
-import { NO_DISCOUNT } from '../../../constants/purchase';
+import { BASE_URL, TICKET_API, PERFORMANCE_API } from '../constants/fetch';
 import { calculatePriceOfTickets } from '../../../redux/selectors';
 
 export const setPurchaseProperty = (purchaseType, payload) => ({

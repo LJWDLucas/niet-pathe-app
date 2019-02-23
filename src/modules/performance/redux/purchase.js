@@ -4,8 +4,8 @@ import * as actionTypes from './actionTypes';
 const initialState = {
   seats: [],
   performanceId: "",
-  name: null,
-  email: null
+  name: "",
+  email: ""
 };
 
 const purchase = (state = initialState, action) => {

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import * as constants from '../constants/purchase';
+import * as constants from '../modules/performance/constants/purchase';
 
 const getPerformances = state => state.entities.performances;
 const getHalls = state => state.entities.halls;

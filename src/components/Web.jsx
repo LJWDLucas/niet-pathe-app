@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getInitialMovies } from '../actions/webActions';
-import Performance from '../../performance/components/Performance';
+import { getInitialMovies } from '../actions/movieActions';
+import Performance from '../modules/performance/components/Performance';
 
 class Web extends React.Component {
   constructor(props) {
@@ -34,15 +34,11 @@ class Web extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-
-});
-
 const mapDispatchToProps = dispatch => ({
   fetchInitialMovies: () => dispatch(getInitialMovies(10)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Web);
+export default connect(null, mapDispatchToProps)(Web);
 
 Web.propTypes = {
   fetchInitialMovies: PropTypes.func
