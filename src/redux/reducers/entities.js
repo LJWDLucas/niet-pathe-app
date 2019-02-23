@@ -8,7 +8,8 @@ const initialState = {
   halls: {},
   reviews: {},
   surveys: {},
-  tickets: {}
+  tickets: {},
+  user: {}
 };
 
 const entities = (state = initialState, action) => {

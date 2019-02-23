@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import App from './App';
 import reducer from './redux/reducer';
 import * as serviceWorker from './serviceWorker';
+import { setUser } from './actions/actions';
 
 const middleware = process.env.NODE_ENV === 'production'
   ? applyMiddleware(thunk)
@@ -14,9 +15,32 @@ const middleware = process.env.NODE_ENV === 'production'
 
 const store = createStore(reducer, middleware);
 
-ReactDOM.render(
+const root = document.getElementById('root');
+
+const auth = root.getAttribute('data-auth');
+const permissionLevel = root.getAttribute('data-logged-in-as');
+class InitApp extends React.Component {
+  componentWillMount() {
+    this.props.initializeApp();
+  }
+
+  render() {
+    return <App />;
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  initializeApp: () => dispatch(setUser(auth, permissionLevel))
+});
+
+const WrappedApp = connect(null, mapDispatchToProps)(InitApp);
+
+const ProviderApp = () => (
   <Provider store={store}>
-    <App />
-  </Provider>, document.getElementById('root')
+    <WrappedApp />
+  </Provider>
 );
+
+ReactDOM.render(<ProviderApp />, document.getElementById('root'));
+
 serviceWorker.unregister();
