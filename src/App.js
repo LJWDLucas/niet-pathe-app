@@ -10,14 +10,14 @@ import Performance from './modules/performance/components/Performance';
 import Performances from './components/Performances';
 import 'react-toastify/dist/ReactToastify.css';
 import './ignore.css';
-import BackButton from './components/BackButton';
 import ApproveReviews from './modules/review/components/ApproveReviews';
 import FullReview from './modules/review/components/FullReview';
+import PostReview from './modules/review/components/PostReview';
 
 const PrivateRoute = ({ render: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props => parseInt(rest.loggedInAs, 10) > 0 ? <Component {...props} /> : <div>You should not have come here!</div>}
+    render={props => parseInt(rest.role, 10) > 0 ? <Component {...props} /> : <div>You should not have come here!</div>}
   />
 );
 
@@ -25,13 +25,13 @@ PrivateRoute.propTypes = {
   render: PropTypes.func
 };
 
-const App = ({ loggedInAs }) => (
+const App = ({ role }) => (
   <React.Fragment>
     <BrowserRouter>
       <Switch>
         <PrivateRoute
           key="secure"
-          loggedInAs={loggedInAs}
+          role={role}
           path="/secure"
           render={() => (
             <React.Fragment>
@@ -48,6 +48,7 @@ const App = ({ loggedInAs }) => (
           <React.Fragment>
             <Switch>
               <Route key="web" exact path="/web" component={Web} />
+              <Route key="postReview" exact path="/web/movie/:movieId/reviews/post" component={PostReview} />
               <Route key="performance" exact path="/web/performance/:performanceId" component={Performance} />
               <Route key="performances" exact path="/web/performances/:movieId" component={Performances} />
             </Switch>
@@ -62,8 +63,8 @@ const App = ({ loggedInAs }) => (
   </React.Fragment>
 );
 
-const mapStateToProps = ({ entities: { user: { loggedInAs } } }) => ({
-  loggedInAs
+const mapStateToProps = ({ entities: { user: { role } } }) => ({
+  role
 });
 
 export default connect(mapStateToProps)(App);

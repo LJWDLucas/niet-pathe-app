@@ -12,11 +12,12 @@ export const initializePerformance = performanceId => (dispatch, getState) => di
     return null;
   });
 
-export const setUser = (auth = null, loggedInAs = 0) => ({
+export const setUser = (auth = null, loggedInAs = "Anonymous", role = 0) => ({
   type: SET_ENTITIES,
   entityType: 'user',
   payload: {
     auth,
-    loggedInAs
+    loggedInAs,
+    role
   }
 });

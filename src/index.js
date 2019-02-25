@@ -18,7 +18,9 @@ const store = createStore(reducer, middleware);
 const root = document.getElementById('root');
 
 const auth = root.getAttribute('data-auth');
-const permissionLevel = root.getAttribute('data-logged-in-as');
+const loggedInAs = root.getAttribute('data-logged-in-as');
+const role = root.getAttribute('data-role');
+
 class InitApp extends React.Component {
   componentWillMount() {
     this.props.initializeApp();
@@ -30,7 +32,7 @@ class InitApp extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  initializeApp: () => dispatch(setUser(auth, permissionLevel))
+  initializeApp: () => dispatch(setUser(auth, loggedInAs, role))
 });
 
 const WrappedApp = connect(null, mapDispatchToProps)(InitApp);

@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchUnapprovedReviews } from '../actions/reviewActions';
+import { fetchUnapprovedReviews, deleteReview, acceptReview } from '../actions/reviewActions';
 import BackButton from '../../../components/BackButton';
 
 class ApproveReviews extends React.Component {
@@ -31,14 +30,14 @@ class ApproveReviews extends React.Component {
 
   render() {
     const { initialized } = this.state;
-    const { reviews } = this.props;
+    const { reviews, approveReview, removeReview } = this.props;
 
     if (!initialized) return null;
 
     return (
       <React.Fragment>
         <div>
-          Klik op een review om deze in zijn geheel te bekijken of verwijder de review op basis van de snippet.
+          Klik op een review om deze in zijn geheel te bekijken of accepteer / verwijder de review op basis van de snippet.
         </div>
         <hr />
         <table className="table with-hover">
@@ -59,9 +58,20 @@ class ApproveReviews extends React.Component {
                     <div
                       onClick={e => {
                         e.stopPropagation();
+                        approveReview(review.id);
                       }}
                     >
-                      Delete
+                      Accepteren
+                    </div>
+                  </td>
+                  <td>
+                    <div
+                      onClick={e => {
+                        e.stopPropagation();
+                        removeReview(review.id, review.removalId);
+                      }}
+                    >
+                      Verwijderen
                     </div>
                   </td>
                 </tr>
@@ -79,7 +89,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUnapprovedReviews: () => dispatch(fetchUnapprovedReviews())
+  getUnapprovedReviews: () => dispatch(fetchUnapprovedReviews()),
+  removeReview: (reviewId, removalId) => dispatch(deleteReview(reviewId, removalId)),
+  approveReview: reviewId => dispatch(acceptReview(reviewId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApproveReviews);
@@ -88,5 +100,7 @@ ApproveReviews.propTypes = {
   getUnapprovedReviews: PropTypes.func,
   reviews: PropTypes.object,
   match: PropTypes.object,
+  approveReview: PropTypes.func,
+  removeReview: PropTypes.func,
   history: PropTypes.object
 };
