@@ -21,6 +21,17 @@ const entities = (state = initialState, action) => {
         }
       });
     }
+    case actionTypes.UPDATE_ENTITY: {
+      return update(state, {
+        [action.entityType]: {
+          [action.id]: {
+            [action.property]: {
+              $set: action.payload
+            }
+          }
+        }
+      });
+    }
     case p.SET_SEAT_TAKEN: {
       const { performanceId, chair, row, taken, ticketId } = action.payload;
       const index = state.performances[performanceId].chairs.findIndex(c => c.chair === chair && c.row === row);

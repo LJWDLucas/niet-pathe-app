@@ -1,2 +1,3 @@
 export const SET_MOVIES_PROPERTY = 'SET_MOVIE_PROPERTY';
 export const SET_ENTITIES = 'SET_ENTITIES';
+export const UPDATE_ENTITY = 'UPDATE_ENTITY';

@@ -4,7 +4,7 @@ import * as actionTypes from './actionTypes';
 const initialState = {
   maxNumberOfMovies: 0,
   pagination: [],
-  search: ''
+  search: '',
 };
 
 const movies = (state = initialState, action) => {

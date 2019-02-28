@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'reactstrap';
 import { connect } from 'react-redux';
+import * as actionTypes from '../redux/actionTypes';
 import BackButton from '../../../components/BackButton';
 import { getMovieById } from '../../../actions/movieActions';
 
@@ -11,6 +12,7 @@ class MovieEditPage extends Component {
     this.state = {
       initialized: false
     };
+    this.updateProperty = this.updateProperty.bind(this);
   }
 
   componentDidMount() {
@@ -20,6 +22,11 @@ class MovieEditPage extends Component {
         .then(() => this.setState({ initialized: true }));
     }
     this.setState({ initialized: true });
+  }
+
+  updateProperty(value, property) {
+    const { editMovie } = this.props;
+    return editMovie(value, property);
   }
 
   render() {
@@ -40,15 +47,33 @@ class MovieEditPage extends Component {
           <tbody>
             <tr>
               <td>Titel</td>
-              <td>{movie.title}</td>
+              <td>
+                <input
+                  type="text"
+                  value={movie.title}
+                  onChange={e => this.updateProperty(e.target.value, 'title')}
+                />
+              </td>
             </tr>
             <tr>
               <td>Beschrijving</td>
-              <td>{movie.description}</td>
+              <td>
+                <textarea
+                  type="text"
+                  value={movie.description}
+                  onChange={e => this.updateProperty(e.target.value, 'description')}
+                />
+              </td>
             </tr>
             <tr>
               <td>Jaar</td>
-              <td>{movie.year}</td>
+              <td>
+                <input
+                  type="text"
+                  value={movie.year}
+                  onChange={e => this.updateProperty(e.target.value, 'year')}
+                />
+              </td>
             </tr>
             <tr>
               <td>Genres</td>
@@ -56,15 +81,33 @@ class MovieEditPage extends Component {
             </tr>
             <tr>
               <td>Looptijd</td>
-              <td>{movie.runtime}</td>
+              <td>
+                <input
+                  type="text"
+                  value={movie.runtime}
+                  onChange={e => this.updateProperty(e.target.value, 'runtime')}
+                />
+              </td>
             </tr>
             <tr>
               <td>Taal</td>
-              <td>{movie.language}</td>
+              <td>
+                <input
+                  type="text"
+                  value={movie.language}
+                  onChange={e => this.updateProperty(e.target.value, 'language')}
+                />
+              </td>
             </tr>
             <tr>
               <td>Actief</td>
-              <td>{movie.active ? 'Ja' : 'Nee'}</td>
+              <td>
+                <input
+                  type="checkbox"
+                  checked={movie.active}
+                  onChange={e => this.updateProperty(e.target.value, 'active')}
+                />
+              </td>
             </tr>
           </tbody>
         </Table>
@@ -79,7 +122,14 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchMovieById: () => dispatch(getMovieById(ownProps.match.params.id))
+  fetchMovieById: () => dispatch(getMovieById(ownProps.match.params.id)),
+  editMovie: (value, property) => dispatch({
+    type: actionTypes.UPDATE_ENTITY,
+    property,
+    entityType: 'movies',
+    id: ownProps.match.params.id,
+    payload: value
+  })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieEditPage);
