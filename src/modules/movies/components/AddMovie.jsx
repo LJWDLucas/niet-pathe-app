@@ -4,26 +4,13 @@ import { Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import * as actionTypes from '../redux/actionTypes';
 import BackButton from '../../../components/BackButton';
-import { getMovieById } from '../../../actions/movieActions';
-import { updateMovie } from '../actions/movieActions';
+import { postMovie } from '../actions/movieActions';
 
-class MovieEditPage extends Component {
+class AddMovie extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      initialized: false
-    };
     this.updateProperty = this.updateProperty.bind(this);
-    this.sendUpdatedMovie = this.sendUpdatedMovie.bind(this);
-  }
-
-  componentDidMount() {
-    const { movie, fetchMovieById } = this.props;
-    if (!movie) {
-      return fetchMovieById()
-        .then(() => this.setState({ initialized: true }));
-    }
-    this.setState({ initialized: true });
+    this.saveMovie = this.saveMovie.bind(this);
   }
 
   updateProperty(value, property) {
@@ -31,16 +18,14 @@ class MovieEditPage extends Component {
     return editMovie(value, property);
   }
 
-  sendUpdatedMovie() {
-    const { sendUpdatedMovie } = this.props;
-    return sendUpdatedMovie();
+  saveMovie() {
+    const { postNewMovie, history } = this.props;
+    return postNewMovie()
+      .then(id => history.push(`/secure/movies/${id}`));
   }
 
   render() {
-    const { initialized } = this.state;
     const { movie } = this.props;
-
-    if (!initialized) return null;
 
     return (
       <React.Fragment>
@@ -129,33 +114,29 @@ class MovieEditPage extends Component {
           </tbody>
         </Table>
         <BackButton destination="/secure/movies" />
-        <button type="button" className="btn btn-success" onClick={this.sendUpdatedMovie}>Opslaan</button>
+        <button type="button" className="btn btn-success" onClick={this.saveMovie}>Opslaan</button>
       </React.Fragment>
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  movie: state.entities.movies[ownProps.match.params.id]
+const mapStateToProps = state => ({
+  movie: state.movies.new
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchMovieById: () => dispatch(getMovieById(ownProps.match.params.id)),
+const mapDispatchToProps = dispatch => ({
   editMovie: (value, property) => dispatch({
-    type: actionTypes.UPDATE_ENTITY,
+    type: actionTypes.UPDATE_NEW_MOVIE,
     property,
-    entityType: 'movies',
-    id: ownProps.match.params.id,
     payload: value
   }),
-  sendUpdatedMovie: () => dispatch(updateMovie(ownProps.match.params.id))
+  postNewMovie: () => dispatch(postMovie())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MovieEditPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AddMovie);
 
-MovieEditPage.propTypes = {
-  fetchMovieById: PropTypes.func,
+AddMovie.propTypes = {
   movie: PropTypes.object,
   editMovie: PropTypes.func,
-  sendUpdatedMovie: PropTypes.func
+  postNewMovie: PropTypes.func
 };

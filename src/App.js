@@ -15,6 +15,7 @@ import FullReview from './modules/review/components/FullReview';
 import PostReview from './modules/review/components/PostReview';
 import MoviesListPage from './modules/movies/components/MoviesListPage';
 import MovieEditPage from './modules/movies/components/MovieEditPage';
+import AddMovie from './modules/movies/components/AddMovie';
 
 const PrivateRoute = ({ render: Component, ...rest }) => (
   <Route
@@ -39,6 +40,7 @@ const App = ({ role }) => (
             <React.Fragment>
               <Switch>
                 <Route exact path="/secure/movies" component={MoviesListPage} />
+                <Route exact path="/secure/movies/new" component={AddMovie} />
                 <Route exact path="/secure/movies/:id" component={MovieEditPage} />
                 <Route exact path="/secure/reviews/:id" component={FullReview} />
                 <Route exact path="/secure/reviews" component={ApproveReviews} />

@@ -17,7 +17,7 @@ export const del = config => api({
   ...config
 });
 
-export const upd = config => api({
-  method: 'UPDATE',
+export const put = config => api({
+  method: 'PUT',
   ...config
 });

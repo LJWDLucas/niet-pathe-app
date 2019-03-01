@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Pagination, PaginationItem, PaginationLink, Table } from 'reactstrap';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMaximumMovies, fetchPaginatedMovies } from '../actions/movieActions';
+import BackButton from '../../../components/BackButton';
 
 class MoviesList extends Component {
   constructor(props) {
@@ -12,12 +14,18 @@ class MoviesList extends Component {
       selected: 0
     };
     this.handleClick = this.handleClick.bind(this);
+    this.addMovie = this.addMovie.bind(this);
   }
 
   componentDidMount() {
     const { getMovieCount, getMovies } = this.props;
     return Promise.all([getMovieCount(), getMovies()])
       .then(() => this.setState({ initialized: true }));
+  }
+
+  addMovie() {
+    const { history, match } = this.props;
+    history.push(`${match.path}/new`);
   }
 
   handleClick(page) {
@@ -58,21 +66,37 @@ class MoviesList extends Component {
             ))}
           </tbody>
         </Table>
-        <Pagination aria-label="Page navigation example">
-          <PaginationItem>
-            <PaginationLink previous href="#" />
-          </PaginationItem>
-          {pagination.map(page => (
-            <PaginationItem active={selected === page} key={page} onClick={() => this.handleClick(page)}>
-              <div className="page-link">
-                {page}
-              </div>
-            </PaginationItem>
-          ))}
-          <PaginationItem>
-            <PaginationLink next href="#" />
-          </PaginationItem>
-        </Pagination>
+        <div className="row">
+          <div className="col-lg-1">
+            <BackButton destination="/secure" />
+          </div>
+          <div className="col-lg-9">
+            <Pagination aria-label="Page navigation example">
+              <PaginationItem>
+                <PaginationLink previous href="#" />
+              </PaginationItem>
+              {pagination.map(page => (
+                <PaginationItem active={selected === page} key={page} onClick={() => this.handleClick(page)}>
+                  <div className="page-link">
+                    {page}
+                  </div>
+                </PaginationItem>
+              ))}
+              <PaginationItem>
+                <PaginationLink next href="#" />
+              </PaginationItem>
+            </Pagination>
+          </div>
+          <div className="col-lg-2">
+            <button
+              type="button"
+              className="btn btn-light"
+              onClick={this.addMovie}
+            >
+              Nieuwe film toevoegen
+            </button>
+          </div>
+        </div>
       </React.Fragment>
     );
   }
@@ -87,7 +111,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getMovies: skip => ownProps.getMovies(skip || 0)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MoviesList);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MoviesList));
 
 MoviesList.propTypes = {
   onMovieSelect: PropTypes.func,
