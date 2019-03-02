@@ -16,6 +16,8 @@ import PostReview from './modules/review/components/PostReview';
 import MoviesListPage from './modules/movies/components/MoviesListPage';
 import MovieEditPage from './modules/movies/components/MovieEditPage';
 import AddMovie from './modules/movies/components/AddMovie';
+import SurveysListPage from './modules/survey/components/SurveysListPage';
+import SurveyResults from './modules/survey/components/SurveyResults';
 
 const PrivateRoute = ({ render: Component, ...rest }) => (
   <Route
@@ -39,6 +41,8 @@ const App = ({ role }) => (
           render={() => (
             <React.Fragment>
               <Switch>
+                <Route exact path="/secure/surveys" component={SurveysListPage} />
+                <Route exact path="/secure/surveys/:id" component={SurveyResults} />
                 <Route exact path="/secure/movies" component={MoviesListPage} />
                 <Route exact path="/secure/movies/new" component={AddMovie} />
                 <Route exact path="/secure/movies/:id" component={MovieEditPage} />

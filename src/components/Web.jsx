@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getInitialMovies } from '../actions/movieActions';
 import Performance from '../modules/performance/components/Performance';
+import Browse from './Browse';
 
 class Web extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class Web extends React.Component {
     return (
       <React.Fragment>
         <div>Web</div>
-        <Performance />
+        <Browse />
       </React.Fragment>
     );
   }

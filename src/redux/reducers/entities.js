@@ -22,6 +22,7 @@ const entities = (state = initialState, action) => {
       });
     }
     case actionTypes.UPDATE_ENTITY: {
+      console.log(action);
       return update(state, {
         [action.entityType]: {
           [action.id]: {

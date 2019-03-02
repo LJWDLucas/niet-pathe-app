@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMaximumMovies, fetchPaginatedMovies } from '../actions/movieActions';
 import BackButton from '../../../components/BackButton';
+import { getInitialMovies } from '../../../actions/movieActions';
 
 class MoviesList extends Component {
   constructor(props) {
@@ -42,6 +43,7 @@ class MoviesList extends Component {
 
     return (
       <React.Fragment>
+        <button onClick={() => this.props.fetchInitialMovies()}>Active</button>
         <Table responsive className="with-hover">
           <thead>
             <tr>
@@ -108,7 +110,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getMovieCount: () => dispatch(fetchMaximumMovies()),
-  getMovies: skip => ownProps.getMovies(skip || 0)
+  getMovies: skip => ownProps.getMovies(skip || 0),
+  fetchInitialMovies: () => dispatch(getInitialMovies(100))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MoviesList));
