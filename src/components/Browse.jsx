@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import {
   Carousel,
   CarouselItem,
@@ -24,6 +25,7 @@ class Browse extends Component {
     this.goToIndex = this.goToIndex.bind(this);
     this.onExiting = this.onExiting.bind(this);
     this.onExited = this.onExited.bind(this);
+    this.onClickMovie = this.onClickMovie.bind(this);
   }
 
   componentDidMount() {
@@ -32,6 +34,11 @@ class Browse extends Component {
       movies: this.spliceMovies(Object.values(movies)),
       initialized: true
     });
+  }
+
+  onClickMovie(id) {
+    const { history } = this.props;
+    return history.push(`web/movie/${id}`);
   }
 
   onExiting() {
@@ -90,7 +97,7 @@ class Browse extends Component {
               onExited={this.onExited}
               key={item.src}
             >
-              <CarouselBrowseSlide movies={item} />
+              <CarouselBrowseSlide movies={item} onClick={this.onClickMovie} />
               <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
             </CarouselItem>
           ))}
@@ -109,7 +116,7 @@ const mapDispatchToProps = dispatch => ({
   fetchInitialMovies: () => dispatch(getInitialMovies(10)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Browse);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Browse));
 
 Browse.propTypes = {
 

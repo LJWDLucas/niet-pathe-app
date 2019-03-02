@@ -25,11 +25,13 @@ class Secure extends React.Component {
 
     return (
       <React.Fragment>
-        <Link to={`${location.pathname}/reviews`}>Goedkeuren reviews</Link>
-        <br />
         <Link to={`${location.pathname}/movies`}>Beheren films</Link>
         <br />
+        <Link to={`${location.pathname}/performances`}>Beheren voorstellingen</Link>
+        <br />
         <Link to={`${location.pathname}/surveys`}>Beheren enquetes</Link>
+        <br />
+        <Link to={`${location.pathname}/reviews`}>Goedkeuren reviews</Link>
       </React.Fragment>
     );
   }
