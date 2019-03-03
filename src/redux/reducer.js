@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import purchase from '../modules/performance/redux/purchase';
+import performance from '../modules/performance/redux/performance';
 import entities from './reducers/entities';
 import reviews from '../modules/review/redux/review';
 import movies from '../modules/movies/redux/movies';
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   purchase,
   reviews,
   movies,
+  performance,
   surveys
 });
 

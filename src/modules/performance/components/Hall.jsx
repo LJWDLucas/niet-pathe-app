@@ -3,7 +3,7 @@ import Screen from './Screen';
 import PerformanceContext from './PerformanceContext';
 import RowHolder from './RowsHolder';
 
-const Hall = props => (
+const Hall = () => (
   <PerformanceContext.Consumer>
     {({ hallId }) => (
       <div id="hall">

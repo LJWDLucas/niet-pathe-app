@@ -1,13 +1,15 @@
 import React from 'react';
 import Media from 'react-media';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router'
 import { connect } from 'react-redux';
 import Hall from './Hall';
 import MobileChairSelector from './MobileChairSelector';
-import { initializePerformance } from '../../../actions/actions';
+import { initializePerformance, setToInitialState } from '../../../actions/actions';
 import { getPerformanceMovie, getPerformanceHall } from '../../../redux/selectors';
 import PerformanceContext from './PerformanceContext';
 import Purchase from './Purchase';
+import BackButton from '../../../components/BackButton';
 
 class Performance extends React.Component {
   constructor(props) {
@@ -23,6 +25,10 @@ class Performance extends React.Component {
       .then(() => this.setState({
         initialized: true
       }));
+  }
+
+  componentWillUnmount() {
+    this.props.unmount();
   }
 
   render() {
@@ -46,13 +52,8 @@ class Performance extends React.Component {
               </div>
             )}
           </Media>
-          <div id="info-and-purchase-display" className="container-fluid flex-wrap">
-            <div className="col-lg-7 col-md-6 col-sm-12 flex-wrap justify-content-center">
-              Poster
-            </div>
-            <Purchase />
-          </div>
         </PerformanceContext.Provider>
+        <BackButton destination="/secure/performances" />
       </div>
     );
   }
@@ -65,10 +66,11 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  initPerformance: () => dispatch(initializePerformance(ownProps.match.params.performanceId))
+  initPerformance: () => dispatch(initializePerformance(ownProps.match.params.performanceId)),
+  unmount: () => dispatch(setToInitialState())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Performance);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Performance));
 
 Performance.propTypes = {
   initPerformance: PropTypes.func,

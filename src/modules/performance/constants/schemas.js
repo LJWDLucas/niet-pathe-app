@@ -6,3 +6,4 @@ export const hall = new schema.Entity('halls');
 
 export const movies = [movie];
 export const performances = [performance];
+export const halls = [hall];

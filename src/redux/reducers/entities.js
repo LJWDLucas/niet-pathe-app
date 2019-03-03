@@ -14,6 +14,12 @@ const initialState = {
 
 const entities = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.SET_TO_INITIAL_STATE: {
+      return {
+        ...initialState,
+        user: state.user
+      };
+    }
     case actionTypes.SET_ENTITIES: {
       return update(state, {
         [action.entityType]: {
@@ -22,7 +28,6 @@ const entities = (state = initialState, action) => {
       });
     }
     case actionTypes.UPDATE_ENTITY: {
-      console.log(action);
       return update(state, {
         [action.entityType]: {
           [action.id]: {

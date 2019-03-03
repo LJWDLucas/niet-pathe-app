@@ -1,7 +1,7 @@
 import { getPerformanceById, getHallById } from '../modules/performance/actions/performanceActions';
 import { getMovieById } from './movieActions';
 import { setPerformanceId } from '../modules/performance/actions/purchaseActions';
-import { SET_ENTITIES } from '../redux/actionTypes';
+import { SET_ENTITIES, SET_TO_INITIAL_STATE } from '../redux/actionTypes';
 
 export const initializePerformance = performanceId => (dispatch, getState) => dispatch(getPerformanceById(performanceId))
   .then(() => {
@@ -20,4 +20,8 @@ export const setUser = (auth = null, loggedInAs = "Anonymous", role = 0) => ({
     loggedInAs,
     role
   }
+});
+
+export const setToInitialState = () => ({
+  type: SET_TO_INITIAL_STATE
 });
