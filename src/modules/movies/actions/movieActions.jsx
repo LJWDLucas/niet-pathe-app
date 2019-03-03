@@ -7,21 +7,21 @@ import { movies, movie } from '../constants/schemas';
 
 export const setMovie = payload => ({ type: actionTypes.SET_ENTITIES, payload, entityType: 'movies' });
 
-export const fetchMaximumMovies = () => dispatch => get({
-  url: `${constants.BASE_URL}${constants.MOVIE_API}/total`
+export const fetchMaximumMovies = () => (dispatch, getState) => get({
+  url: `${getState().user.websiteUrl}${constants.MOVIE_API}/total`
 })
   .then(result => dispatch({ type: actionTypes.SET_MOVIES_PROPERTY, movieProperty: 'maxNumberOfMovies', payload: result.data.total }));
 
-export const fetchPaginatedMovies = skip => dispatch => get({
-  url: `${constants.BASE_URL}${constants.MOVIE_API}/pagination/${skip}`
+export const fetchPaginatedMovies = skip => (dispatch, getState) => get({
+  url: `${getState().user.websiteUrl}${constants.MOVIE_API}/pagination/${skip}`
 })
   .then(result => {
     const normalized = normalize(result.data, movies);
     return dispatch(setMovie(normalized.entities.movies));
   });
 
-export const getMovieById = movieId => dispatch => get({
-  url: `${constants.BASE_URL}${constants.MOVIE_API}/${movieId}`
+export const getMovieById = movieId => (dispatch, getState) => get({
+  url: `${getState().user.websiteUrl}${constants.MOVIE_API}/${movieId}`
 })
   .then(result => {
     const normalized = normalize(result.data, movie);
@@ -31,7 +31,7 @@ export const getMovieById = movieId => dispatch => get({
 export const updateMovie = movieId => (dispatch, getState) => {
   toast.info("De film wordt geüpdatet.");
   return put({
-    url: `${constants.BASE_URL}${constants.MOVIE_API}/update`,
+    url: `${getState().user.websiteUrl}${constants.MOVIE_API}/update`,
     data: getState().entities.movies[movieId]
   })
     .then(result => result.data.success ? toast.success("Gelukt") : toast.warn("Update is niet gelukt."));
@@ -40,7 +40,7 @@ export const updateMovie = movieId => (dispatch, getState) => {
 export const postMovie = () => (dispatch, getState) => {
   toast.info("De film wordt opgeslagen.");
   return post({
-    url: `${constants.BASE_URL}${constants.MOVIE_API}/new`,
+    url: `${getState().user.websiteUrl}${constants.MOVIE_API}/new`,
     data: getState().movies.new
   })
     .then(result => {

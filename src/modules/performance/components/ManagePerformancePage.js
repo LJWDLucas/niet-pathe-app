@@ -29,7 +29,7 @@ class ManagePerformancePage extends Component {
   }
 }
 const mapStateToProps = state => ({
-  isCustomer: state.entities.user.role === 0
+  isCustomer: state.user.role === 0
 });
 
 const mapDispatchToProps = dispatch => ({

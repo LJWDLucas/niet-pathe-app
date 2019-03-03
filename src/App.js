@@ -79,7 +79,7 @@ const App = ({ role }) => (
   </React.Fragment>
 );
 
-const mapStateToProps = ({ entities: { user: { role } } }) => ({
+const mapStateToProps = ({ user: { role } }) => ({
   role
 });
 

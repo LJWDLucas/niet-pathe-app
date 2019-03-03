@@ -36,32 +36,32 @@ export const resetPerformance = () => ({
   type: p.SET_INITIAL_PERFORMANCE
 });
 
-export const getPerformancesByMovieId = movieId => dispatch => get({
-  url: `${f.BASE_URL}${f.PERFORMANCE_API}/movie/${movieId}`
+export const getPerformancesByMovieId = movieId => (dispatch, getState) => get({
+  url: `${getState().user.websiteUrl}${f.PERFORMANCE_API}/movie/${movieId}`
 })
   .then(result => {
     const normalized = normalize(result.data, performances);
     return dispatch(setPerformances(normalized.entities.performances));
   });
 
-export const getPerformanceById = performanceId => dispatch => get({
-  url: `${f.BASE_URL}${f.PERFORMANCE_API}/${performanceId}`
+export const getPerformanceById = performanceId => (dispatch, getState) => get({
+  url: `${getState().user.websiteUrl}${f.PERFORMANCE_API}/${performanceId}`
 })
   .then(result => {
     const normalized = normalize(result.data, performance);
     return dispatch(setPerformances(normalized.entities.performances));
   });
 
-export const getHallById = hallId => dispatch => get({
-  url: `${f.BASE_URL}${f.HALL_API}/${hallId}`
+export const getHallById = hallId => (dispatch, getState) => get({
+  url: `${getState().user.websiteUrl}${f.HALL_API}/${hallId}`
 })
   .then(result => {
     const normalized = normalize(result.data, hall);
     return dispatch(setHalls(normalized.entities.halls));
   });
 
-export const getAllHalls = () => dispatch => get({
-  url: `${f.BASE_URL}${f.HALL_API}`
+export const getAllHalls = () => (dispatch, getState) => get({
+  url: `${getState().user.websiteUrl}${f.HALL_API}`
 })
   .then(result => {
     const normalized = normalize(result.data, halls);
@@ -73,13 +73,13 @@ export const getPerformanceByDate = endpoint => (dispatch, getState) => {
   let url;
   switch (endpoint) {
     case 'before':
-      url = `${f.BASE_URL}${f.PERFORMANCE_API}/beforeDate`;
+      url = `${getState().user.websiteUrl}${f.PERFORMANCE_API}/beforeDate`;
       break;
     case 'after':
-      url = `${f.BASE_URL}${f.PERFORMANCE_API}/afterDate`;
+      url = `${getState().user.websiteUrl}${f.PERFORMANCE_API}/afterDate`;
       break;
     default:
-      url = `${f.BASE_URL}${f.PERFORMANCE_API}/date`;
+      url = `${getState().user.websiteUrl}${f.PERFORMANCE_API}/date`;
       break;
   }
   return post({ url, data: { date } })
@@ -150,7 +150,7 @@ export const createNewPerformance = () => (dispatch, getState) => {
     chairs: createChairs(getState().entities.halls[_performance.hallId])
   };
   return post({
-    url: `${f.BASE_URL}${f.PERFORMANCE_API}/create`,
+    url: `${getState().user.websiteUrl}${f.PERFORMANCE_API}/create`,
     data
   })
     .then(() => {

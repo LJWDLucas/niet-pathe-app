@@ -23,34 +23,34 @@ export const removeReview = reviewId => ({
   payload: reviewId
 });
 
-export const fetchUnapprovedReviews = () => dispatch => get({
-  url: `${constants.BASE_URL}${constants.REVIEW_API}/unapproved`
+export const fetchUnapprovedReviews = () => (dispatch, getState) => get({
+  url: `${getState().user.websiteUrl}${constants.REVIEW_API}/unapproved`
 })
   .then(result => {
     const normalized = normalize(result.data, schemas.reviews);
     return dispatch(setUnapprovedReviews(normalized.entities.reviews));
   });
 
-export const fetchReview = id => dispatch => get({
-  url: `${constants.BASE_URL}${constants.REVIEW_API}/${id}`
+export const fetchReview = id => (dispatch, getState) => get({
+  url: `${getState().user.websiteUrl}${constants.REVIEW_API}/${id}`
 })
   .then(result => {
     const normalized = normalize(result.data, schemas.review);
     return dispatch({ type: SET_ENTITIES, payload: normalized.entities.review, entityType: 'reviews' });
   });
 
-export const deleteReview = (reviewId, removalId) => dispatch => del({
-  url: `${constants.BASE_URL}${constants.REVIEW_API}/${reviewId}/${removalId}`
+export const deleteReview = (reviewId, removalId) => (dispatch, getState) => del({
+  url: `${getState().user.websiteUrl}${constants.REVIEW_API}/${reviewId}/${removalId}`
 })
   .then(() => dispatch(removeReview(reviewId)));
 
 export const acceptReview = reviewId => (dispatch, getState) => post({
-  url: `${constants.BASE_URL}${constants.REVIEW_API}/approve/${reviewId}`,
+  url: `${getState().user.websiteUrl}${constants.REVIEW_API}/approve/${reviewId}`,
   headers: {
     'content-type': 'application/json'
   },
   data: {
-    employeeId: getState().entities.user.loggedInAs
+    employeeId: getState().user.loggedInAs
   }
 })
   .then(() => dispatch(removeReview(reviewId)));
@@ -59,7 +59,7 @@ export const acceptReview = reviewId => (dispatch, getState) => post({
 export const postReview = () => (dispatch, getState) => {
   const { review } = getState().reviews;
   return post({
-    url: `${constants.BASE_URL}${constants.REVIEW_API}/post`,
+    url: `${getState().user.websiteUrl}${constants.REVIEW_API}/post`,
     data: {
       ...review,
       comment: serializer(review.comment)

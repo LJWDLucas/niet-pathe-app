@@ -9,16 +9,12 @@ const initialState = {
   reviews: {},
   surveys: {},
   tickets: {},
-  user: {}
 };
 
 const entities = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_TO_INITIAL_STATE: {
-      return {
-        ...initialState,
-        user: state.user
-      };
+      return initialState;
     }
     case actionTypes.SET_ENTITIES: {
       return update(state, {

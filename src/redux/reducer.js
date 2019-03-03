@@ -5,6 +5,7 @@ import entities from './reducers/entities';
 import reviews from '../modules/review/redux/review';
 import movies from '../modules/movies/redux/movies';
 import surveys from '../modules/survey/redux/survey';
+import user from './reducers/user';
 
 const rootReducer = combineReducers({
   entities,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   reviews,
   movies,
   performance,
-  surveys
+  surveys,
+  user
 });
 
 export default rootReducer;

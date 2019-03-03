@@ -6,7 +6,6 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import App from './App';
 import reducer from './redux/reducer';
-import * as serviceWorker from './serviceWorker';
 import { setUser } from './actions/actions';
 
 const middleware = process.env.NODE_ENV === 'production'
@@ -20,6 +19,7 @@ const root = document.getElementById('root');
 const auth = root.getAttribute('data-auth');
 const loggedInAs = root.getAttribute('data-logged-in-as');
 const role = root.getAttribute('data-role');
+const websiteUrl = root.getAttribute('data-website-url');
 
 class InitApp extends React.Component {
   componentWillMount() {
@@ -32,7 +32,7 @@ class InitApp extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  initializeApp: () => dispatch(setUser(auth, loggedInAs, role))
+  initializeApp: () => dispatch(setUser(auth, loggedInAs, role, websiteUrl))
 });
 
 const WrappedApp = connect(null, mapDispatchToProps)(InitApp);
@@ -44,5 +44,3 @@ const ProviderApp = () => (
 );
 
 ReactDOM.render(<ProviderApp />, document.getElementById('root'));
-
-serviceWorker.unregister();

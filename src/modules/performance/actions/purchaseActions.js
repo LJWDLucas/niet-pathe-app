@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import * as actionTypes from '../redux/actionTypes';
 import { post } from '../../../utils/api';
-import { BASE_URL, TICKET_API, PERFORMANCE_API } from '../constants/fetch';
+import { TICKET_API, PERFORMANCE_API } from '../constants/fetch';
 import { calculatePriceOfTickets } from '../../../redux/selectors';
 
 export const setPurchaseProperty = (purchaseType, payload) => ({
@@ -35,8 +35,8 @@ const updateSeatTaken = ({ performanceId, chair, row, id }, taken) => ({
   }
 });
 
-const bookPerformanceSeat = ({ performanceId, chair, row, id }) => post({
-  url: `${BASE_URL}${PERFORMANCE_API}/${performanceId}/seat`,
+const bookPerformanceSeat = ({ performanceId, chair, row, id }, websiteUrl) => post({
+  url: `${websiteUrl}${PERFORMANCE_API}/${performanceId}/seat`,
   data: {
     chair,
     row,
@@ -44,8 +44,8 @@ const bookPerformanceSeat = ({ performanceId, chair, row, id }) => post({
   }
 });
 
-const createTicket = payload => post({
-  url: `${BASE_URL}${TICKET_API}`,
+const createTicket = (payload, websiteUrl) => post({
+  url: `${websiteUrl}${TICKET_API}`,
   data: payload
 })
   .then(result => result.data);
@@ -54,6 +54,7 @@ export const calculateDiscount = () => (dispatch, getState) => dispatch(setCalcu
 
 export const bookSeats = () => (dispatch, getState) => {
   const { purchase } = getState();
+  const { websiteUrl } = getState().user;
   toast.info('Een moment geduld aub. Uw bestelling wordt verwerkt.');
   return Promise.all(purchase.seats.map(seat => {
     const ticket = {
@@ -65,11 +66,11 @@ export const bookSeats = () => (dispatch, getState) => {
       name: purchase.name || 'Anoniem',
       email: purchase.email || 'Geen'
     };
-    return createTicket(ticket);
+    return createTicket(ticket, websiteUrl);
   }))
     .then(results => Promise.all(results.map(result => {
       dispatch(updateSeatTaken(result, true));
-      return bookPerformanceSeat(result);
+      return bookPerformanceSeat(result, websiteUrl);
     })))
     .then(() => toast.success('Uw bestelling is verwerkt. U ontvangt een e-mail met uw tickets.'))
     .then(() => dispatch(emptySeats()))

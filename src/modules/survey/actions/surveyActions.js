@@ -17,16 +17,16 @@ export const setSurvey = payload => ({
   payload
 });
 
-export const fetchAllSurveys = () => dispatch => get({
-  url: `${constants.BASE_URL}${constants.SURVEY_API}`
+export const fetchAllSurveys = () => (dispatch, getState) => get({
+  url: `${getState().user.websiteUrl}${constants.SURVEY_API}`
 })
   .then(result => {
     const normalizedData = normalize(result.data, surveys);
     return dispatch(setSurveys(normalizedData.entities.surveys));
   });
 
-export const fetchSurvey = surveyId => dispatch => get({
-  url: `${constants.BASE_URL}${constants.SURVEY_API}/${surveyId}`
+export const fetchSurvey = surveyId => (dispatch, getState) => get({
+  url: `${getState().user.websiteUrl}${constants.SURVEY_API}/${surveyId}`
 })
   .then(result => {
     const normalizedData = normalize(result.data, survey);
