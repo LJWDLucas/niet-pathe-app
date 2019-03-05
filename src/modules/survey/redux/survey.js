@@ -1,30 +1,41 @@
 import update from 'immutability-helper';
 import * as actionTypes from './actionTypes';
 
+/*
+{
+  question: "",
+  answerRequired: false,
+  ratingRequired: false
+}
+*/
 const initialState = {
   new: {
     title: "",
-    questions: [{
-      question: "",
-      answer: "",
-      answerRequired: false,
-      rating: "",
-      ratingRequired: false
-    }],
+    questions: [],
     active: false,
+    answers: {}
   },
 };
 
 const movies = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_QUESTION: {
-      const n = Math.ceil(action.payload / 25);
       return update(state, {
-        [action.movieProperty]: {
-          $set: action.payload
+        new: {
+          questions: {
+            $push: [action.payload]
+          }
         },
-        pagination: {
-          $set: Array.from(Array(n), (_, x) => x)
+      });
+    }
+    case actionTypes.REMOVE_QUESTION: {
+      const newQuestions = [...state.new.questions];
+      newQuestions.splice(action.payload, 1);
+      return update(state, {
+        new: {
+          questions: {
+            $set: newQuestions
+          }
         }
       });
     }
@@ -33,6 +44,19 @@ const movies = (state = initialState, action) => {
         new: {
           [action.property]: {
             $set: action.payload
+          }
+        }
+      });
+    }
+    case actionTypes.TOGGLE_QUESTION_REQUIRED: {
+      return update(state, {
+        new: {
+          questions: {
+            [action.index]: {
+              [action.requiredType]: {
+                $set: action.payload
+              }
+            }
           }
         }
       });

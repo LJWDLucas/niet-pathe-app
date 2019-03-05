@@ -1,19 +1,46 @@
 import { normalize } from 'normalizr';
 import * as constants from '../constants/fetch';
-import { get } from '../../../utils/api';
+import { get, post } from '../../../utils/api';
 import { surveys, survey } from '../constants/schemas';
-import { SET_ENTITIES, UPDATE_ENTITY } from '../redux/actionTypes';
+import * as t from '../redux/actionTypes';
 
 export const setSurveys = payload => ({
-  type: SET_ENTITIES,
+  type: t.SET_ENTITIES,
   entityType: 'surveys',
   payload
 });
 
 export const setSurvey = payload => ({
-  type: UPDATE_ENTITY,
+  type: t.UPDATE_ENTITY,
   entityType: 'surveys',
   id: payload.id,
+  payload
+});
+
+export const setSurveyProperty = (property, payload) => ({
+  type: t.SET_PROPERTY,
+  property,
+  payload
+});
+
+export const setInitialState = () => ({
+  type: t.SET_INITIAL_STATE
+});
+
+export const addSurveyQuestion = payload => ({
+  type: t.ADD_QUESTION,
+  payload
+});
+
+export const removeSurveyQuestion = payload => ({
+  type: t.REMOVE_QUESTION,
+  payload
+});
+
+export const toggleSurveyQuestionCheckbox = (index, requiredType, payload) => ({
+  type: t.TOGGLE_QUESTION_REQUIRED,
+  index,
+  requiredType,
   payload
 });
 
@@ -32,3 +59,8 @@ export const fetchSurvey = surveyId => (dispatch, getState) => get({
     const normalizedData = normalize(result.data, survey);
     return dispatch(setSurveys(normalizedData.entities.surveys));
   });
+
+export const postSurvey = () => (dispatch, getState) => post({
+
+})
+  .then(() => dispatch(setInitialState()));

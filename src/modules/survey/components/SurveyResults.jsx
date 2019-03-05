@@ -31,41 +31,46 @@ class SurveyResults extends Component {
           <div className="col-sm-2">Titel van enquete:</div>
           <div className="col-sm-10">{survey.title}</div>
         </div>
-        {survey.questions.map((question, index) => (
+        {survey.questions.map(question => (
           <React.Fragment>
-            {question.answerRequired && (
               <Table key={`text_${question.id}`}>
                 <thead>
                   <tr>
                     <td>
                       #
                     </td>
-                    <td>
-                      {`Vraag: ${question.questionText}`}
-                    </td>
+                    {question.answerRequired && (
+                      <td>
+                        {`Vraag: ${question.questionText}`}
+                      </td>
+                    )}
+                    {question.ratingRequired && (
+                      <td>
+                        Waardering
+                      </td>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
-                  {survey.answers[index].map((responder, i) => (
+                  {survey.answers[question.id].map((answer, i) => (
                     <tr>
                       <td>
                         {i + 1}
                       </td>
-                      <td>
-                        {responder.answerText}
-                      </td>
+                      {question.answerRequired && (
+                        <td>
+                          {answer.answerText}
+                        </td>
+                      )}
+                      {question.ratingRequired && (
+                        <td>
+                          {answer.rating}
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
               </Table>
-            )}
-            {question.ratingRequired && (
-              <Table key={`rating${question.id}`}>
-                <tbody>
-                  <td>Hoi2</td>
-                </tbody>
-              </Table>
-            )}
           </React.Fragment>
         ))}
         <BackButton destination="/secure/surveys" />

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { Pagination, PaginationItem, PaginationLink, Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchAllSurveys } from '../actions/surveyActions';
@@ -11,12 +12,18 @@ class SurveysList extends Component {
     this.state = {
       initialized: false
     };
+    this.addSurvey = this.addSurvey.bind(this);
   }
 
   componentDidMount() {
     const { getSurveys } = this.props;
     return getSurveys()
       .then(() => this.setState({ initialized: true }));
+  }
+
+  addSurvey() {
+    const { location, history } = this.props;
+    history.push(`${location.pathname}/create`);
   }
 
   render() {
@@ -49,7 +56,7 @@ class SurveysList extends Component {
             <button
               type="button"
               className="btn btn-light"
-              onClick={this.addMovie}
+              onClick={this.addSurvey}
             >
               Nieuwe enquete toevoegen
             </button>
@@ -67,7 +74,7 @@ const mapDispatchToProps = dispatch => ({
   getSurveys: () => dispatch(fetchAllSurveys())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SurveysList);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SurveysList));
 
 SurveysList.propTypes = {
   getSurveys: PropTypes.func,

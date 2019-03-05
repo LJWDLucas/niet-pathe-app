@@ -17,6 +17,7 @@ import MoviesListPage from './modules/movies/components/MoviesListPage';
 import MovieEditPage from './modules/movies/components/MovieEditPage';
 import AddMovie from './modules/movies/components/AddMovie';
 import SurveysListPage from './modules/survey/components/SurveysListPage';
+import CreateSurvey from './modules/survey/components/CreateSurvey';
 import SurveyResults from './modules/survey/components/SurveyResults';
 import ManagePerformancesPage from './modules/performance/components/ManagePerformancesPage';
 import ManagePerformancePage from './modules/performance/components/ManagePerformancePage';
@@ -48,6 +49,7 @@ const App = ({ role }) => (
                 <Route exact path="/secure/performances/create" component={CreatePerformance} />
                 <Route exact path="/secure/performances/:performanceId" component={ManagePerformancePage} />
                 <Route exact path="/secure/surveys" component={SurveysListPage} />
+                <Route exact path="/secure/surveys/create" component={CreateSurvey} />
                 <Route exact path="/secure/surveys/:id" component={SurveyResults} />
                 <Route exact path="/secure/movies" component={MoviesListPage} />
                 <Route exact path="/secure/movies/new" component={AddMovie} />

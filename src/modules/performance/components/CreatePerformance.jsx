@@ -68,7 +68,7 @@ class CreatePerformance extends Component {
           </select>
         </FormGroup>
         <FormGroup>
-          <Label for="date">Datum</Label>
+          <Label htmlFor="date">Datum</Label>
           <Input
             className={`${this.hasError('date')}`}
             type="date"
@@ -79,7 +79,7 @@ class CreatePerformance extends Component {
           />
         </FormGroup>
         <FormGroup>
-          <Label for="startTime">Starttijd</Label>
+          <Label htmlFor="startTime">Starttijd</Label>
           <Input
             className={`${this.hasError('startTime')}`}
             onChange={e => setStartTime(e.target.value)}
@@ -90,7 +90,7 @@ class CreatePerformance extends Component {
           />
         </FormGroup>
         <FormGroup>
-          <Label for="endTime">Eindtijd</Label>
+          <Label htmlFor="endTime">Eindtijd</Label>
           <Input
             className={`${this.hasError('endTime')}`}
             onChange={e => setEndTime(e.target.value)}
