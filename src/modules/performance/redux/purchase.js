@@ -3,6 +3,7 @@ import * as actionTypes from './actionTypes';
 
 const initialState = {
   seats: [],
+  removal: [],
   performanceId: "",
   name: "",
   email: ""

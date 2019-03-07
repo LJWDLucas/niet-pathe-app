@@ -10,6 +10,8 @@ import { getPerformanceMovie, getPerformanceHall } from '../../../redux/selector
 import PerformanceContext from './PerformanceContext';
 import Purchase from './Purchase';
 import BackButton from '../../../components/BackButton';
+import EmployeePurchase from './EmployeePurchase';
+import { emptySeats } from '../actions/purchaseActions';
 
 class Performance extends React.Component {
   constructor(props) {
@@ -33,7 +35,7 @@ class Performance extends React.Component {
 
   render() {
     const { initialized } = this.state;
-    const { performance } = this.props;
+    const { performance, isCustomer } = this.props;
 
     if (!initialized) return null;
     return (
@@ -41,7 +43,8 @@ class Performance extends React.Component {
         <PerformanceContext.Provider
           value={{
             performanceId: performance.id,
-            hallId: performance.hallId
+            hallId: performance.hallId,
+            isCustomer
           }}
         >
           <Hall />
@@ -52,9 +55,9 @@ class Performance extends React.Component {
               </div>
             )}
           </Media>
-          <Purchase />
+          {isCustomer && <Purchase />}
+          {!isCustomer && <EmployeePurchase />}
         </PerformanceContext.Provider>
-
         <BackButton destination="/secure/performances" />
       </div>
     );
@@ -62,6 +65,7 @@ class Performance extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  isCustomer: state.user.role === 0,
   performance: state.entities.performances[ownProps.match.params.performanceId],
   movie: getPerformanceMovie(ownProps.match.params.performanceId)(state),
   hall: getPerformanceHall(ownProps.match.params.performanceId)(state)
@@ -69,12 +73,16 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   initPerformance: () => dispatch(initializePerformance(ownProps.match.params.performanceId)),
-  unmount: () => dispatch(setToInitialState())
+  unmount: () => {
+    dispatch(setToInitialState());
+    dispatch(emptySeats());
+  }
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Performance));
 
 Performance.propTypes = {
   initPerformance: PropTypes.func,
-  performance: PropTypes.object
+  performance: PropTypes.object,
+  isCustomer: PropTypes.bool
 };

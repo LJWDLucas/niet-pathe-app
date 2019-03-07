@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Performance from './Performance';
+import EmployeePurchase from './EmployeePurchase';
 
 class ManagePerformancePage extends Component {
   constructor(props) {

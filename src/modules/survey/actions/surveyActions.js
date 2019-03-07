@@ -1,4 +1,5 @@
 import { normalize } from 'normalizr';
+import { toast } from 'react-toastify';
 import * as constants from '../constants/fetch';
 import { get, post } from '../../../utils/api';
 import { surveys, survey } from '../constants/schemas';
@@ -61,6 +62,10 @@ export const fetchSurvey = surveyId => (dispatch, getState) => get({
   });
 
 export const postSurvey = () => (dispatch, getState) => post({
-
+  url: `${getState().user.websiteUrl}${constants.SURVEY_API}`,
+  data: getState().surveys.new
 })
-  .then(() => dispatch(setInitialState()));
+  .then(() => {
+    toast.success("Je enquete is opgeslagen");
+    dispatch(setInitialState());
+  });

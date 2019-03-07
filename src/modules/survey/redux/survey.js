@@ -24,17 +24,25 @@ const movies = (state = initialState, action) => {
         new: {
           questions: {
             $push: [action.payload]
+          },
+          answers: {
+            [action.payload.id]: {
+              $set: []
+            }
           }
         },
       });
     }
     case actionTypes.REMOVE_QUESTION: {
       const newQuestions = [...state.new.questions];
-      newQuestions.splice(action.payload, 1);
+      const { id } = newQuestions.splice(action.payload, 1)[0];
       return update(state, {
         new: {
           questions: {
             $set: newQuestions
+          },
+          answers: {
+            $unset: [id]
           }
         }
       });

@@ -15,11 +15,11 @@ class Row extends React.Component {
 
     return (
       <PerformanceContext.Consumer>
-        {({ performanceId }) => (
+        {({ performanceId, isCustomer }) => (
           <div
             className={`row-chairs ${withClass}`}
           >
-            {this.chairs.map(chair => <Chair key={chair} row={row} chair={chair} performanceId={performanceId} />)}
+            {this.chairs.map(chair => <Chair key={chair} row={row} chair={chair} performanceId={performanceId} isCustomer={isCustomer} />)}
           </div>
         )}
       </PerformanceContext.Consumer>

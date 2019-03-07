@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import * as actionTypes from '../redux/actionTypes';
-import { post } from '../../../utils/api';
+import { post, put } from '../../../utils/api';
 import { TICKET_API, PERFORMANCE_API } from '../constants/fetch';
 import { calculatePriceOfTickets } from '../../../redux/selectors';
 
@@ -51,6 +51,12 @@ const createTicket = (payload, websiteUrl) => post({
   .then(result => result.data);
 
 export const calculateDiscount = () => (dispatch, getState) => dispatch(setCalculatedDiscount(calculatePriceOfTickets(getState())));
+
+export const undoBooking = (payload, performanceId) => (dispatch, getState) => put({
+  url: `${getState().user.websiteUrl}${PERFORMANCE_API}/${performanceId}/seat`,
+  data: payload
+})
+  .then(() => dispatch(updateSeatTaken({ performanceId, chair: payload.chair, row: payload.row, id: null }, false)));
 
 export const bookSeats = () => (dispatch, getState) => {
   const { purchase } = getState();

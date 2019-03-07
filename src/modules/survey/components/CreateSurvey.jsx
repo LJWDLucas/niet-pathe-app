@@ -4,7 +4,7 @@ import uuid from 'uuid/v4';
 import { FormGroup, Label, Input, Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import BackButton from '../../../components/BackButton';
-import { setSurveyProperty, addSurveyQuestion, toggleSurveyQuestionCheckbox, removeSurveyQuestion } from '../actions/surveyActions';
+import { setSurveyProperty, addSurveyQuestion, toggleSurveyQuestionCheckbox, removeSurveyQuestion, postSurvey } from '../actions/surveyActions';
 
 class CreateSurvey extends Component {
   constructor(props) {
@@ -20,13 +20,13 @@ class CreateSurvey extends Component {
   }
 
   render() {
-    const { survey, setTitle, addQuestion, setActive, toggleQuestionCheckbox, deleteQuestion } = this.props;
+    const { survey, setTitle, addQuestion, setActive, toggleQuestionCheckbox, deleteQuestion, createSurvey } = this.props;
     const { newQuestion } = this.state;
     return (
       <React.Fragment>
         <FormGroup>
           <Label htmlFor="title">Titel</Label>
-          <Input value={survey.title} onChange={e => setTitle(e)} />
+          <Input value={survey.title} onChange={e => setTitle(e.target.value)} />
         </FormGroup>
         <div>Vragen bij deze enquete:</div>
         <Table className="with-hover">
@@ -84,7 +84,7 @@ class CreateSurvey extends Component {
           />
         </div>
         <BackButton destination="/secure/surveys" />
-        <button className="btn btn-light" type="button">
+        <button onClick={createSurvey} className="btn btn-light" type="button">
           Opslaan
         </button>
       </React.Fragment>
@@ -97,11 +97,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   addQuestion: questionText => dispatch(addSurveyQuestion({
-    id: uuid().substr(12, 36),
+    id: uuid().substr(12, 36).replace(/\W/g, '4'),
     questionText,
     answerRequired: false,
     ratingRequired: false
   })),
+  createSurvey: () => dispatch(postSurvey()),
   deleteQuestion: index => dispatch(removeSurveyQuestion(index)),
   toggleQuestionCheckbox: (index, requiredType, payload) => dispatch(toggleSurveyQuestionCheckbox(index, requiredType, payload)),
   setTitle: value => dispatch(setSurveyProperty('title', value)),
@@ -114,6 +115,7 @@ CreateSurvey.propTypes = {
   survey: PropTypes.object,
   setActive: PropTypes.func,
   setTitle: PropTypes.func,
+  createSurvey: PropTypes.func,
   addQuestion: PropTypes.func,
   toggleQuestionCheckbox: PropTypes.func,
   deleteQuestion: PropTypes.func

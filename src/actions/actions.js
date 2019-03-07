@@ -25,3 +25,7 @@ export const setUser = (auth = null, loggedInAs = "Anonymous", role = 0, website
 export const setToInitialState = () => ({
   type: SET_TO_INITIAL_STATE
 });
+
+export const emptySeats = () => ({
+  type: 'EMPTY_SEATS'
+});
