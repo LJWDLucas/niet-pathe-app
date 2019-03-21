@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import { Pagination, PaginationItem, PaginationLink, Table } from 'reactstrap';
+import { Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchAllSurveys } from '../actions/surveyActions';
 import BackButton from '../../../components/BackButton';
@@ -34,7 +34,7 @@ class SurveysList extends Component {
 
     return (
       <React.Fragment>
-        <Table responsive className="with-hover">
+        <Table responsive className="with-hover white-text">
           <thead>
             <tr>
               <th>Titel</th>

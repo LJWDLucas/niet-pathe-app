@@ -40,7 +40,7 @@ class ApproveReviews extends React.Component {
           Klik op een review om deze in zijn geheel te bekijken of accepteer / verwijder de review op basis van de snippet.
         </div>
         <hr />
-        <table className="table with-hover">
+        <table className="table with-hover white-text">
           <thead>
             <tr>
               <th>Review Id</th>

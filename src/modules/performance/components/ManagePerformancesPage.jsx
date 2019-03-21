@@ -23,11 +23,6 @@ class ManagePerformancesPage extends Component {
       .then(() => this.setState({ initialized: true }));
   }
 
-  createNewPerformance() {
-    const { history, match } = this.props;
-    return history.push(`${match.path}/create`);
-  }
-
   getPerformancesToday() {
     const { setDate, getPerformancesOnDate } = this.props;
     return setDate(moment().format('YYYY-MM-DD'))
@@ -39,6 +34,11 @@ class ManagePerformancesPage extends Component {
     return history.push(`${match.path}/${id}`);
   }
 
+  createNewPerformance() {
+    const { history, match } = this.props;
+    return history.push(`${match.path}/create`);
+  }
+
   render() {
     const { initialized } = this.state;
     const { setDate, getPerformancesAfterDate, getPerformancesBeforeDate, getPerformancesOnDate, date, performances } = this.props;
@@ -47,11 +47,11 @@ class ManagePerformancesPage extends Component {
 
     return (
       <React.Fragment>
-        <div className="row justify-content-around">
+        <div className="row justify-content-around padding-around">
           <button type="button" className="btn btn-light">
             Voorstellingen vandaag
           </button>
-          <div>
+          <div className="date-holder">
             Datum:
             <input value={date} onChange={e => setDate(e.target.value)} type="text" placeholder="jjjj-mm-dd" />
           </div>
@@ -65,7 +65,7 @@ class ManagePerformancesPage extends Component {
             Zoeken na datum
           </button>
         </div>
-        <Table className="with-hover">
+        <Table className="with-hover white-text">
           <thead>
             <tr>
               <th>Naam film</th>

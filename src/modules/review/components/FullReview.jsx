@@ -27,7 +27,7 @@ class FullReview extends Component {
 
     return (
       <React.Fragment>
-        <table className="table">
+        <table className="table white-text">
           <thead>
             <tr>
               <th>Sleutel</th>

@@ -33,7 +33,7 @@ class SurveyResults extends Component {
         </div>
         {survey.questions.map(question => (
           <React.Fragment>
-              <Table key={`text_${question.id}`}>
+              <Table key={`text_${question.id}`} className="white-text">
                 <thead>
                   <tr>
                     <td>

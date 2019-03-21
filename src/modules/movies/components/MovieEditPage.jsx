@@ -44,7 +44,7 @@ class MovieEditPage extends Component {
 
     return (
       <React.Fragment>
-        <Table>
+        <Table className="white-text">
           <thead>
             <tr>
               <th>Onderwerp</th>

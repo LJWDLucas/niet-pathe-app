@@ -29,7 +29,7 @@ class CreateSurvey extends Component {
           <Input value={survey.title} onChange={e => setTitle(e.target.value)} />
         </FormGroup>
         <div>Vragen bij deze enquete:</div>
-        <Table className="with-hover">
+        <Table className="with-hover white-text">
           <tbody>
             {survey.questions.length === 0 && (
               <tr>
