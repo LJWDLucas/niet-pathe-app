@@ -23,6 +23,7 @@ import ManagePerformancesPage from './modules/performance/components/ManagePerfo
 import ManagePerformancePage from './modules/performance/components/ManagePerformancePage';
 import CreatePerformance from './modules/performance/components/CreatePerformance';
 import SecureNavBar from './components/SecureNavBar';
+import Loader from './components/Loader';
 
 const PrivateRoute = ({ render: Component, ...rest }) => (
   <Route
@@ -37,6 +38,7 @@ PrivateRoute.propTypes = {
 
 const App = ({ role }) => (
   <React.Fragment>
+    <Loader />
     <BrowserRouter>
       <Switch>
         <PrivateRoute

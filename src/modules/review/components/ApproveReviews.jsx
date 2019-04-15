@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchUnapprovedReviews, deleteReview, acceptReview } from '../actions/reviewActions';
 import BackButton from '../../../components/BackButton';
+import { setShowLoader, setHideLoader } from '../../../actions/layoutActions';
 
 class ApproveReviews extends React.Component {
   constructor(props) {
@@ -13,9 +14,13 @@ class ApproveReviews extends React.Component {
   }
 
   componentDidMount() {
-    const { getUnapprovedReviews } = this.props;
+    const { getUnapprovedReviews, showLoader, hideLoader } = this.props;
+    showLoader();
     getUnapprovedReviews()
-      .then(() => this.setState({ initialized: true }));
+      .then(() => {
+        this.setState({ initialized: true });
+        hideLoader();
+      });
   }
 
   getSnippet(comment) {
@@ -91,7 +96,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getUnapprovedReviews: () => dispatch(fetchUnapprovedReviews()),
   removeReview: (reviewId, removalId) => dispatch(deleteReview(reviewId, removalId)),
-  approveReview: reviewId => dispatch(acceptReview(reviewId))
+  approveReview: reviewId => dispatch(acceptReview(reviewId)),
+  showLoader: () => dispatch(setShowLoader()),
+  hideLoader: () => dispatch(setHideLoader())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApproveReviews);

@@ -5,6 +5,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { getPerformanceByDate, setPerformanceDate } from '../actions/performanceActions';
 import BackButton from '../../../components/BackButton';
+import { setShowLoader, setHideLoader } from '../../../actions/layoutActions';
 
 class ManagePerformancesPage extends Component {
   constructor(props) {
@@ -18,9 +19,13 @@ class ManagePerformancesPage extends Component {
   }
 
   componentDidMount() {
-    const { getPerformancesOnDate } = this.props;
+    const { getPerformancesOnDate, showLoader, hideLoader } = this.props;
+    showLoader();
     return getPerformancesOnDate()
-      .then(() => this.setState({ initialized: true }));
+      .then(() => {
+        hideLoader();
+        this.setState({ initialized: true });
+      });
   }
 
   getPerformancesToday() {
@@ -105,6 +110,8 @@ const mapDispatchToProps = dispatch => ({
   getPerformancesBeforeDate: () => dispatch(getPerformanceByDate('before')),
   getPerformancesAfterDate: () => dispatch(getPerformanceByDate('after')),
   setDate: date => dispatch(setPerformanceDate(date)),
+  showLoader: () => dispatch(setShowLoader()),
+  hideLoader: () => dispatch(setHideLoader())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManagePerformancesPage);

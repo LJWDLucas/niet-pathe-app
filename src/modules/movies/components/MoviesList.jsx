@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMaximumMovies } from '../actions/movieActions';
 import BackButton from '../../../components/BackButton';
+import { setShowLoader, setHideLoader } from '../../../actions/layoutActions';
 
 class MoviesList extends Component {
   constructor(props) {
@@ -18,9 +19,13 @@ class MoviesList extends Component {
   }
 
   componentDidMount() {
-    const { getMovieCount, getMovies } = this.props;
+    const { getMovieCount, getMovies, showLoader, hideLoader } = this.props;
+    showLoader();
     return Promise.all([getMovieCount(), getMovies()])
-      .then(() => this.setState({ initialized: true }));
+      .then(() => {
+        hideLoader();
+        this.setState({ initialized: true });
+      });
   }
 
   addMovie() {
@@ -101,6 +106,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getMovieCount: () => dispatch(fetchMaximumMovies()),
   getMovies: skip => ownProps.getMovies(skip || 0),
+  showLoader: () => dispatch(setShowLoader()),
+  hideLoader: () => dispatch(setHideLoader())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(MoviesList));

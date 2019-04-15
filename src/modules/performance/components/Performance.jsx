@@ -12,6 +12,7 @@ import Purchase from './Purchase';
 import BackButton from '../../../components/BackButton';
 import EmployeePurchase from './EmployeePurchase';
 import { emptySeats } from '../actions/purchaseActions';
+import { setShowLoader, setHideLoader } from '../../../actions/layoutActions';
 
 class Performance extends React.Component {
   constructor(props) {
@@ -22,11 +23,15 @@ class Performance extends React.Component {
   }
 
   componentDidMount() {
-    const { initPerformance } = this.props;
+    const { initPerformance, hideLoader, showLoader } = this.props;
+    showLoader();
     return initPerformance()
-      .then(() => this.setState({
-        initialized: true
-      }));
+      .then(() => {
+        hideLoader();
+        this.setState({
+          initialized: true
+        });
+      });
   }
 
   componentWillUnmount() {
@@ -76,7 +81,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   unmount: () => {
     dispatch(setToInitialState());
     dispatch(emptySeats());
-  }
+  },
+  showLoader: () => dispatch(setShowLoader()),
+  hideLoader: () => dispatch(setHideLoader())
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Performance));

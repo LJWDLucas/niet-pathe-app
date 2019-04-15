@@ -5,6 +5,7 @@ import { Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import { fetchAllSurveys } from '../actions/surveyActions';
 import BackButton from '../../../components/BackButton';
+import { setShowLoader, setHideLoader } from '../../../actions/layoutActions';
 
 class SurveysList extends Component {
   constructor(props) {
@@ -16,9 +17,13 @@ class SurveysList extends Component {
   }
 
   componentDidMount() {
-    const { getSurveys } = this.props;
+    const { getSurveys, showLoader, hideLoader } = this.props;
+    showLoader();
     return getSurveys()
-      .then(() => this.setState({ initialized: true }));
+      .then(() => {
+        this.setState({ initialized: true });
+        hideLoader();
+      });
   }
 
   addSurvey() {
@@ -34,7 +39,7 @@ class SurveysList extends Component {
 
     return (
       <React.Fragment>
-        <Table responsive className="with-hover white-text">
+        <Table responsive className="with-hover">
           <thead>
             <tr>
               <th>Titel</th>
@@ -71,7 +76,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getSurveys: () => dispatch(fetchAllSurveys())
+  getSurveys: () => dispatch(fetchAllSurveys()),
+  showLoader: () => dispatch(setShowLoader()),
+  hideLoader: () => dispatch(setHideLoader())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SurveysList));
